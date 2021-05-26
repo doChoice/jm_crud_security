@@ -34,7 +34,7 @@ public class JpaUserDAOImpl implements UserDAO {
 
     @Override
     @Transactional(readOnly = true)
-    public User getUser(int id) {
+    public User getUserById(int id) {
         return entityManager.find(User.class, id);
     }
 
