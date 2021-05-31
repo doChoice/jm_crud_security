@@ -1,16 +1,19 @@
 package net.stupkin.jmcources.service;
 
 import net.stupkin.jmcources.dao.UserDAO;
+import net.stupkin.jmcources.model.Role;
 import net.stupkin.jmcources.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
 @Service
-@Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserDAO userDAO;
 
@@ -20,7 +23,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
         return userDAO.getAllUsers();
     }
@@ -36,13 +38,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public User getUserById(int id) {
+    public User getUserById(Long id) {
         return userDAO.getUserById(id);
     }
 
     @Override
-    public void deleteUser(int id) {
+    public void deleteUser(Long id) {
         userDAO.deleteUser(id);
+    }
+
+    @Override
+    public User getUserByUsername(String userName) {
+        return userDAO.getUserByEmail(userName);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        return getUserByUsername(userName);
+    }
+
+    @Override
+    public Role getRoleById(Long id) {
+        return userDAO.getRoleById(id);
+    }
+
+    @Override
+    public List<Role> getAllRoles() {
+        return userDAO.getAllRoles();
     }
 }

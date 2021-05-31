@@ -1,4 +1,4 @@
-package net.stupkin.jmcources.comfig;
+package net.stupkin.jmcources.config;
 
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -9,7 +9,8 @@ import javax.servlet.ServletException;
 public class AppInit extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{PersistenceJPAConfig.class};
+//        return new Class[]{PersistenceJPAConfig.class};
+        return null;
     }
 
     @Override

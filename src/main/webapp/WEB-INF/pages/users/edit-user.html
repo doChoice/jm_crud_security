@@ -10,7 +10,7 @@
 
 <h2>Edit user</h2>
 
-<form th:method="PATCH" th:action="@{/users/{id}(id=${user.getId()})}" th:object="${user}">
+<form th:method="PATCH" th:action="@{/admin/{id}(id=${user.getId()})}" th:object="${user}">
     <label for="id">ID</label><br>
     <input type="text" th:field="*{id}" th:disabled="true" id="ID"/><br><br>
 
@@ -34,7 +34,30 @@
     <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
     <br><br>
 
+    <label for="password">Password</label><br>
+    <input type="text" th:field="*{password}" id="password"/><br>
+    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
+    <br><br>
+
+    <div>
+        <label for="roles">Roles</label><br>
+        <select th:name="roles" id="roles" multiple="multiple" size="2" >
+            <option th:each="role : ${allRoles}"
+                    th:value="${role.id}"
+                    th:text="${role.roleName}">role
+            </option>
+        </select>
+    </div>
+    <div style="color: red" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">Roles error</div>
+    <br><br>
+
     <input type="submit" value="Edit"/>
+</form>
+
+<br><br>
+
+<form th:method="POST" th:action="@{/logout}">
+    <input type="submit" value="Sign Out">
 </form>
 
 </body>

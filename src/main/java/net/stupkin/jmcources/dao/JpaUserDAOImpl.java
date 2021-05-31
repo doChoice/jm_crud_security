@@ -1,7 +1,8 @@
 package net.stupkin.jmcources.dao;
 
+import net.stupkin.jmcources.model.Role;
 import net.stupkin.jmcources.model.User;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -9,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
-@Component
+@Repository
 @Transactional
 public class JpaUserDAOImpl implements UserDAO {
 
@@ -34,14 +35,35 @@ public class JpaUserDAOImpl implements UserDAO {
 
     @Override
     @Transactional(readOnly = true)
-    public User getUserById(int id) {
+    public User getUserById(Long id) {
         return entityManager.find(User.class, id);
     }
 
     @Override
-    public void deleteUser(int id) {
+    public void deleteUser(Long id) {
         Query query = entityManager.createQuery("delete from User where id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User getUserByEmail(String emailForUsername) {
+        User user = entityManager.createQuery("select u from User u where email = :email", User.class)
+                .setParameter("email", emailForUsername)
+                .getSingleResult();
+        return user;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Role getRoleById(Long id) {
+        return entityManager.find(Role.class, id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Role> getAllRoles() {
+        return entityManager.createQuery("select r from Role r", Role.class).getResultList();
     }
 }
