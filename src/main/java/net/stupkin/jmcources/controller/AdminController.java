@@ -41,7 +41,7 @@ public class AdminController {
         model.addAttribute("allRoles", allRoles);
         return "users/new-user";
     }
-    @Transactional
+
     @PostMapping()
     public String addNewUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
                              @RequestParam (value ="roles", required = false) Long[] rolesId) {
