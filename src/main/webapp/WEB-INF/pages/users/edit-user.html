@@ -50,7 +50,10 @@
     </div>
     <div style="color: red" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">Roles error</div>
     <br><br>
-
+<!--    <li th:each="role : ${allRoles}">-->
+<!--        <input type="checkbox" th:field="*{roles}" th:value="${{role}}"/>-->
+<!--        <label th:for="${#ids.prev('roles')}" th:text="${role.roleName}">ROLE_USER</label>-->
+<!--    </li>-->
     <input type="submit" value="Edit"/>
 </form>
 
