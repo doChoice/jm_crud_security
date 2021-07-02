@@ -46,7 +46,7 @@ public class User implements UserDetails {
     private int age;
 
 
-    @ManyToMany //(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "users_roles"
             , joinColumns = @JoinColumn(name = "user_id")
@@ -121,7 +121,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList(roles.size());
+        List<GrantedAuthority> authorities = new ArrayList<>(roles.size());
         for (Role role: roles) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
         }
