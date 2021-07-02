@@ -1,11 +1,14 @@
 package net.stupkin.jmcources.model;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -43,7 +46,7 @@ public class User implements UserDetails {
     private int age;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany //(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles"
             , joinColumns = @JoinColumn(name = "user_id")
@@ -118,7 +121,11 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        List<GrantedAuthority> authorities = new ArrayList(roles.size());
+        for (Role role: roles) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
+        }
+        return authorities;
     }
 
     @Override
